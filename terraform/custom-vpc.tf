@@ -1,4 +1,4 @@
-#custom-vpc, Private-SB, Public SB, Internet Gateway,
+#vpc, Private-SB, Public SB, Internet Gateway,
 
 provider "aws" {
   region = "us-east-1"
