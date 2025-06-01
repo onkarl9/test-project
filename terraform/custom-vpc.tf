@@ -1,4 +1,4 @@
-#custom-vpc,Priavte-SB, Public SBInternet Gateway,
+#custom-vpc, Private-SB, Public SB, Internet Gateway,
 
 provider "aws" {
   region = "us-east-1"
@@ -13,7 +13,7 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_internet_gateway" "igw" {
+resource "aws_internet_gateway" "aws-igw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
@@ -55,13 +55,10 @@ resource "aws_route_table" "public_rt" {
   }
 }
 
-# 6. Associate Public Subnet with Public Route Table
 resource "aws_route_table_association" "public_assoc" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public_rt.id
 }
-
-# 7. Private Route Table (no internet route)
 resource "aws_route_table" "private_rt" {
   vpc_id = aws_vpc.main.id
 
@@ -69,8 +66,6 @@ resource "aws_route_table" "private_rt" {
     Name = "private-rt"
   }
 }
-
-# 8. Associate Private Subnet with Private Route Table
 resource "aws_route_table_association" "private_assoc" {
   subnet_id      = aws_subnet.private.id
   route_table_id = aws_route_table.private_rt.id
