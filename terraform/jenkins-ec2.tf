@@ -3,9 +3,11 @@ resource "aws_instance" "jenkins-server" {
   instance_type               = "t2.micro"
   key_name                    = "AMZ_LINUX_EC2"
   subnet_id                   = "subnet-0229148c2f7e3ff3b" 
-   
-   
-  user_data = <<-EOF
+    tags = {
+    Name = "jenkins-server"
+  }
+
+user_data = <<-EOF
     #!/bin/bash
     yum install -y java-17-amazon-corretto.x86_64
     java --version
@@ -16,8 +18,5 @@ resource "aws_instance" "jenkins-server" {
     systemctl enable jenkins
     yum install -y git
   EOF
-
-  tags = {
-    Name = "jenkins-server"
   }
 }
